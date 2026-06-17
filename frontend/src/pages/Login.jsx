@@ -1,4 +1,3 @@
-// Login.jsx
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../services/firebase";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +10,7 @@ import videoPortalHTA from "../videos/portalhta.mp4";
 
 import "./Login.css";
 
-/* ── Iconos de línea (sin dependencias externas) ── */
+/* ── Iconos de línea ── */
 function IconHeartbeat(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -103,17 +102,17 @@ function IconHelp(props) {
   );
 }
 
+const imagenes = [doctor, doctora, sede];
+
+const overlayTexts = [
+  { title: "Accede a todos tus resultados", desc: "Consulta información médica de manera rápida y segura." },
+  { title: "Atención médica de calidad",    desc: "Médicos especializados en hipertensión arterial." },
+  { title: "Encuentra tu sede más cercana", desc: "Sedes disponibles en toda Lima Metropolitana." },
+];
+
 function Login() {
   const navigate = useNavigate();
-
-  const imagenes = [doctor, doctora, sede];
   const [actual, setActual] = useState(0);
-
-  const overlayTexts = [
-    { title: "Accede a todos tus resultados", desc: "Consulta información médica de manera rápida y segura." },
-    { title: "Atención médica de calidad",    desc: "Médicos especializados en hipertensión arterial." },
-    { title: "Encuentra tu sede más cercana", desc: "Sedes disponibles en toda Lima Metropolitana." },
-  ];
 
   /* ── Slider automático ── */
   useEffect(() => {
@@ -123,7 +122,7 @@ function Login() {
     return () => clearInterval(intervalo);
   }, []);
 
-  /* ── Leaflet Map ── */
+  /* ──  Mapa ── */
   useEffect(() => {
 
     function initLeafletMap() {
@@ -236,7 +235,7 @@ function Login() {
   return (
     <div className="page-wrapper">
 
-      {/* ══ HEADER / MENÚ ══════════════════════════════════════ */}
+      {/*  MENÚ  */}
       <header className="site-header">
         <div className="site-header-logo">
           <span className="login-nav-logo"><IconHeartbeat className="login-nav-logo-icon" /></span>
@@ -263,7 +262,7 @@ function Login() {
         </nav>
       </header>
 
-      {/* ══ SECCIÓN 1 — HERO / LOGIN ══════════════════════════ */}
+      {/*  LOGIN  */}
       <section className="login-hero" id="login-section">
 
         <div className="login-left">
@@ -324,7 +323,7 @@ function Login() {
         </div>
       </section>
 
-      {/* ══ SECCIÓN 2 — SOBRE NOSOTROS ════════════════════════ */}
+      {/* SOBRE NOSOTROS*/}
       <section className="sobre-nosotros" id="sobre-nosotros">
         <div className="sobre-texto">
           <span className="section-eyebrow">Quiénes somos</span>
@@ -351,7 +350,7 @@ function Login() {
         </div>
       </section>
 
-      {/* ══ SECCIÓN 3 — SEDES + MAPA ══════════════════════════ */}
+      {/*  SEDES + MAPA */}
       <section className="sedes-section" id="sedes">
         <div className="sedes-map">
           <div className="sedes-map-frame">
@@ -372,7 +371,7 @@ function Login() {
         </div>
       </section>
 
-      {/* ══ SECCIÓN 4 — FOOTER ════════════════════════════════ */}
+      {/*  Redes  */}
       <footer className="footer">
 
         <div className="footer-social">
