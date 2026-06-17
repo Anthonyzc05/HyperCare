@@ -21,6 +21,23 @@ const registrarUsuario = (req, res) => {
   });
 };
 
+const actualizarRol = (req, res) => {
+
+  usuarioService.actualizarRol(req.body, (error, resultado) => {
+
+    if (error) {
+      return res.status(500).json(error);
+    }
+
+    res.json({
+      mensaje: "Rol actualizado correctamente"
+    });
+
+  });
+
+};
+
 module.exports = {
-  registrarUsuario
+  registrarUsuario,
+  actualizarRol
 };
