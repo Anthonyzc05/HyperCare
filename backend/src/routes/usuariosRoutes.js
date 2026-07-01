@@ -3,10 +3,15 @@ const router = express.Router();
 
 const {
   registrarUsuario,
-  actualizarRol
+  actualizarPerfil,
+  obtenerUsuario
 } = require("../controllers/usuariosController");
 
 router.post("/", registrarUsuario);
-router.put("/rol", actualizarRol);
+
+router.put("/perfil", actualizarPerfil);
+
+// Obtener usuario por Firebase UID
+router.get("/:firebase_uid", obtenerUsuario);
 
 module.exports = router;

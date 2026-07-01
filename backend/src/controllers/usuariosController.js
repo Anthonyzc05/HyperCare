@@ -12,32 +12,59 @@ const registrarUsuario = (req, res) => {
       return res.status(500).json(error);
     }
 
-    console.log("USUARIO REGISTRADO");
-
     res.status(201).json({
       mensaje: "Usuario registrado correctamente"
     });
 
   });
+
 };
 
-const actualizarRol = (req, res) => {
+const actualizarPerfil = (req, res) => {
 
-  usuarioService.actualizarRol(req.body, (error, resultado) => {
+  usuarioService.actualizarPerfil(req.body, (error, resultado) => {
 
     if (error) {
+      console.error(error);
       return res.status(500).json(error);
     }
 
     res.json({
-      mensaje: "Rol actualizado correctamente"
+      mensaje: "Perfil actualizado correctamente"
     });
 
   });
 
 };
 
+const obtenerUsuario = (req, res) => {
+
+  const firebase_uid = req.params.firebase_uid;
+
+  usuarioService.obtenerUsuario(
+    firebase_uid,
+    (error, resultado) => {
+
+      if (error) {
+        console.error(error);
+        return res.status(500).json(error);
+      }
+
+      if (resultado.length === 0) {
+        return res.status(404).json({
+          mensaje: "Usuario no encontrado"
+        });
+      }
+
+      res.json(resultado[0]);
+
+    }
+  );
+
+};
+
 module.exports = {
   registrarUsuario,
-  actualizarRol
+  actualizarPerfil,
+  obtenerUsuario
 };

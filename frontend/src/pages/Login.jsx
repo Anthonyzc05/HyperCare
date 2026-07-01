@@ -8,7 +8,7 @@ import doctora from "../assets/images/doctora.png";
 import sede from "../assets/images/sede.png";
 import videoPortalHTA from "../videos/portalhta.mp4";
 
-import "./Login.css";
+import "../styles/Login.css";
 
 /* ── Iconos de línea ── */
 function IconHeartbeat(props) {
@@ -211,26 +211,77 @@ function Login() {
 
   /* ── Login con Google ── */
   const loginGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
 
-      await fetch("http://localhost:3000/api/usuarios", {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
+  try {
+
+    const result = await signInWithPopup(auth, provider);
+
+    localStorage.setItem(
+      "firebase_uid",
+      result.user.uid
+    );
+
+    // Registrar usuario si no existe
+    await fetch(
+      "http://localhost:3000/api/usuarios",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           firebase_uid: result.user.uid,
-          nombre:       result.user.displayName,
-          email:        result.user.email,
-          foto:         result.user.photoURL,
-        }),
-      });
+          nombre: result.user.displayName,
+          email: result.user.email,
+          foto: result.user.photoURL
+        })
+      }
+    );
 
-      navigate("/dashboard");
-    } catch (error) {
-      console.error(error);
-      alert("Error al iniciar sesión");
+    // Obtener datos del usuario
+    const response = await fetch(
+      `http://localhost:3000/api/usuarios/${result.user.uid}`
+    );
+
+    const usuario = await response.json();
+
+    console.log(usuario);
+
+    // Perfil completo
+    if (usuario.perfil_completo) {
+
+      if (usuario.rol === "PACIENTE") {
+        navigate("/dashboardPaciente");
+      }
+
+      else if (usuario.rol === "MEDICO") {
+        navigate("/dashboardMedico");
+      }
+
+      else if (usuario.rol === "ADMIN") {
+        navigate("/dashboardAdmin");
+      }
+
     }
-  };
+
+    // Perfil incompleto
+    else {
+
+      navigate("/registro");
+
+    }
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    alert("Error al iniciar sesión");
+
+  }
+
+};
 
   return (
     <div className="page-wrapper">
