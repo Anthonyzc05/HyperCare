@@ -1,0 +1,154 @@
+:root {
+  --hta-bg: #F5F0E6;
+  --hta-card-bg: #FFFFFF;
+  --hta-navy: #1C3A54;
+  --hta-navy-soft: #33526E;
+  --hta-terracota: #B85C3C;
+  --hta-terracota-hover: #A34E31;
+  --hta-border: #E4DCC8;
+  --hta-text-muted: #6B7280;
+  --hta-input-bg: #FAF7F0;
+}
+
+.registro-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--hta-bg);
+  background-image: radial-gradient(circle at 20% 20%, rgba(184, 92, 60, 0.05), transparent 40%),
+                     radial-gradient(circle at 80% 80%, rgba(28, 58, 84, 0.05), transparent 40%);
+  padding: 48px 24px;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.registro-card {
+  background: var(--hta-card-bg);
+  width: 100%;
+  max-width: 460px;
+  padding: 48px 40px;
+  border-radius: 16px;
+  border: 1px solid var(--hta-border);
+  box-shadow: 0 20px 40px -12px rgba(28, 58, 84, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.registro-card h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--hta-navy);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.registro-card h1::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: var(--hta-terracota);
+  border-radius: 2px;
+  margin-top: 10px;
+}
+
+.registro-card p {
+  color: var(--hta-text-muted);
+  font-size: 14.5px;
+  line-height: 1.5;
+  margin: 0 0 8px 0;
+}
+
+/* boton y seleccionar */
+.registro-card input,
+.registro-card select {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--hta-border);
+  border-radius: 10px;
+  background-color: var(--hta-input-bg);
+  color: var(--hta-navy);
+  font-size: 14.5px;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.registro-card input::placeholder {
+  color: #A3A095;
+}
+
+.registro-card input:focus,
+.registro-card select:focus {
+  outline: none;
+  border-color: var(--hta-terracota);
+  background-color: var(--hta-card-bg);
+  box-shadow: 0 0 0 3px rgba(184, 92, 60, 0.12);
+}
+
+.registro-card select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2333526E' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  cursor: pointer;
+  padding-right: 40px;
+}
+
+/* Botones */
+.registro-card button {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  margin-top: 4px;
+}
+
+.registro-card button:first-of-type,
+.registro-card button:not([type="button"]) {
+  background: var(--hta-terracota);
+  color: #FFFFFF;
+  box-shadow: 0 6px 16px -6px rgba(184, 92, 60, 0.55);
+}
+
+.registro-card button:not([type="button"]):hover {
+  background: var(--hta-terracota-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -8px rgba(184, 92, 60, 0.6);
+}
+
+.registro-card button[type="button"] {
+  background: transparent;
+  color: var(--hta-navy-soft);
+  border: 1px solid var(--hta-border);
+}
+
+.registro-card button[type="button"]:hover {
+  background: var(--hta-bg);
+  border-color: var(--hta-navy-soft);
+  color: var(--hta-navy);
+}
+
+.registro-card button:active {
+  transform: translateY(0);
+}
+
+/* colores q cambian */
+@media (max-width: 480px) {
+  .registro-card {
+    padding: 36px 24px;
+    border-radius: 12px;
+  }
+
+  .registro-card h1 {
+    font-size: 24px;
+  }
+}
