@@ -7,17 +7,11 @@ import doctor from "../assets/images/doctor.png";
 import doctora from "../assets/images/doctora.png";
 import sede from "../assets/images/sede.png";
 import videoPortalHTA from "../videos/portalhta.mp4";
+import logo from "../assets/images/logo.png";
 
 import "../styles/Login.css";
 
 /* ── Iconos de línea ── */
-function IconHeartbeat(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M3 12h4l2 6 4-12 2 6h6" />
-    </svg>
-  );
-}
 function IconUser(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -212,76 +206,76 @@ function Login() {
   /* ── Login con Google ── */
   const loginGoogle = async () => {
 
-  try {
+    try {
 
-    const result = await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
 
-    localStorage.setItem(
-      "firebase_uid",
-      result.user.uid
-    );
+      localStorage.setItem(
+        "firebase_uid",
+        result.user.uid
+      );
 
-    // Registrar usuario si no existe
-    await fetch(
-      "http://localhost:3000/api/usuarios",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          firebase_uid: result.user.uid,
-          nombre: result.user.displayName,
-          email: result.user.email,
-          foto: result.user.photoURL
-        })
+      // Registrar usuario si no existe
+      await fetch(
+        "http://localhost:3000/api/usuarios",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            firebase_uid: result.user.uid,
+            nombre: result.user.displayName,
+            email: result.user.email,
+            foto: result.user.photoURL
+          })
+        }
+      );
+
+      // Obtener datos del usuario
+      const response = await fetch(
+        `http://localhost:3000/api/usuarios/${result.user.uid}`
+      );
+
+      const usuario = await response.json();
+
+      console.log(usuario);
+
+      // Perfil completo
+      if (usuario.perfil_completo) {
+
+        if (usuario.rol === "PACIENTE") {
+          navigate("/dashboardPaciente");
+        }
+
+        else if (usuario.rol === "MEDICO") {
+          navigate("/dashboardMedico");
+        }
+
+        else if (usuario.rol === "ADMIN") {
+          navigate("/dashboardAdmin");
+        }
+
       }
-    );
 
-    // Obtener datos del usuario
-    const response = await fetch(
-      `http://localhost:3000/api/usuarios/${result.user.uid}`
-    );
+      // Perfil incompleto
+      else {
 
-    const usuario = await response.json();
+        navigate("/registro");
 
-    console.log(usuario);
-
-    // Perfil completo
-    if (usuario.perfil_completo) {
-
-      if (usuario.rol === "PACIENTE") {
-        navigate("/dashboardPaciente");
-      }
-
-      else if (usuario.rol === "MEDICO") {
-        navigate("/dashboardMedico");
-      }
-
-      else if (usuario.rol === "ADMIN") {
-        navigate("/dashboardAdmin");
       }
 
     }
 
-    // Perfil incompleto
-    else {
+    catch (error) {
 
-      navigate("/registro");
+      console.error(error);
+
+      alert("Error al iniciar sesión");
 
     }
 
-  }
-
-  catch (error) {
-
-    console.error(error);
-
-    alert("Error al iniciar sesión");
-
-  }
-
-};
+  };
 
   return (
     <div className="page-wrapper">
@@ -289,7 +283,7 @@ function Login() {
       {/*  MENÚ  */}
       <header className="site-header">
         <div className="site-header-logo">
-          <span className="login-nav-logo"><IconHeartbeat className="login-nav-logo-icon" /></span>
+          <img src={logo} alt="Portal HTA" className="login-nav-logo-icon" />
           <span className="login-nav-name">Portal HTA</span>
         </div>
 

@@ -106,21 +106,12 @@ html, body, #root {
   overflow-y: auto;
 }
 
-.login-nav-logo {
+.login-nav-logo-icon {
   width: 36px;
   height: 36px;
+  object-fit: contain;
   border-radius: 6px;
-  background: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
-}
-
-.login-nav-logo-icon {
-  width: 18px;
-  height: 18px;
-  color: var(--accent);
 }
 
 .login-nav-name {
