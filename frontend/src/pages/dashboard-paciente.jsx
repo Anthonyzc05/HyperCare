@@ -41,7 +41,7 @@ import {
   formatearFechaHora,
 } from "../utils/presion";
 
-import "../styles/paciente.css";
+import "../styles/Dashboard.css";
 
 /* ============================================
    dashboard-paciente.jsx — Portal HTA
@@ -159,6 +159,39 @@ function DashboardPaciente() {
         : "Medición registrada correctamente."
     );
     setActiveId("inicio");
+  };
+
+  const [descargando, setDescargando] = useState(false);
+
+  const handleDescargarReporte = async () => {
+    setDescargando(true);
+    try {
+      const firebase_uid = localStorage.getItem("firebase_uid");
+      const dias = filtroDias === "all" ? 3650 : filtroDias;
+
+      const response = await fetch(
+        `http://localhost:3000/api/reportes/paciente/${firebase_uid}?dias=${dias}`
+      );
+
+      if (!response.ok) {
+        throw new Error("No se pudo generar el reporte");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `reporte-hta-${new Date().toISOString().slice(0, 10)}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error(error);
+      alert("No se pudo descargar el reporte. Verifica que el backend esté corriendo en el puerto 3000.");
+    } finally {
+      setDescargando(false);
+    }
   };
 
   const handleToggleRecordatorio = (id) => {
@@ -410,20 +443,29 @@ function DashboardPaciente() {
       {activeId === "reportes" && (
         <div className="dash-card" style={{ maxWidth: 480 }}>
           <div className="dash-section-title">Reporte para tu médico</div>
-          <p style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.6, marginBottom: "1.1rem" }}>
-            Genera un PDF con tu historial de mediciones, gráfico de evolución y medicamentos
-            activos del período seleccionado, listo para llevar a tu próxima consulta.
+          <p style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.6, marginBottom: "1rem" }}>
+            Genera un PDF con tu historial de mediciones y un resumen del período
+            seleccionado, listo para llevar a tu próxima consulta.
           </p>
+
+          <div className="dash-field" style={{ maxWidth: 220 }}>
+            <label>Período del reporte</label>
+            <select value={filtroDias} onChange={(e) => setFiltroDias(e.target.value)}>
+              {FILTROS_FECHA.map((f) => (
+                <option key={f.id} value={f.id}>
+                  {f.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <button
             type="button"
             className="dash-btn-primary"
-            onClick={() =>
-              alert(
-                "TODO: conectar con /api/reportes (PDFKit) — ver Evidencia1 §11.3 y Evidencia2 §6.2."
-              )
-            }
+            onClick={handleDescargarReporte}
+            disabled={descargando}
           >
-            <IconDownload /> Descargar reporte PDF
+            <IconDownload /> {descargando ? "Generando..." : "Descargar reporte PDF"}
           </button>
         </div>
       )}
