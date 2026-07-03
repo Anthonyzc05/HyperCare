@@ -41,7 +41,7 @@ import {
   formatearFechaHora,
 } from "../utils/presion";
 
-import "../styles/Dashboard.css";
+import "../styles/paciente.css";
 
 /* ============================================
    dashboard-paciente.jsx — Portal HTA
