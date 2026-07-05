@@ -54,10 +54,29 @@ const actualizarPerfil = (datos, callback) => {
 
           const usuario = resultado[0];
 
-          // Guarda los datos en la tabla pacientes
+          // Guarda los datos en la tabla correspondiente según el rol.
+          // ANTES: solo existía la rama PACIENTE, así que MEDICO y ADMIN
+          // caían en el "else" y nunca se guardaba nada en `medicos`
+          // ni en `administradores`.
           if (datos.rol === "PACIENTE") {
 
             usuarioModel.guardarPaciente(
+              usuario.id,
+              datos,
+              callback
+            );
+
+          } else if (datos.rol === "MEDICO") {
+
+            usuarioModel.guardarMedico(
+              usuario.id,
+              datos,
+              callback
+            );
+
+          } else if (datos.rol === "ADMIN") {
+
+            usuarioModel.guardarAdministrador(
               usuario.id,
               datos,
               callback
@@ -86,8 +105,23 @@ const obtenerUsuario = (firebase_uid, callback) => {
 
 };
 
+// NUEVO: usados por el Dashboard Admin
+const listarUsuarios = (callback) => {
+
+  usuarioModel.listarUsuarios(callback);
+
+};
+
+const obtenerEstadisticas = (callback) => {
+
+  usuarioModel.obtenerEstadisticas(callback);
+
+};
+
 module.exports = {
   registrarUsuario,
   actualizarPerfil,
-  obtenerUsuario
+  obtenerUsuario,
+  listarUsuarios,
+  obtenerEstadisticas
 };

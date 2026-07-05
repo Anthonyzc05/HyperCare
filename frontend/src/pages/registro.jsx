@@ -7,11 +7,28 @@ function Registro() {
   const navigate = useNavigate();
 
   const [rol, setRol] = useState("");
+
+  // Campos de PACIENTE
   const [dni, setDni] = useState("");
   const [telefono, setTelefono] = useState("");
   const [direccion, setDireccion] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [centroSalud, setCentroSalud] = useState("");
+
+  // Campos de MEDICO
+  // ANTES: estos inputs no tenían value/onChange, así que nunca se
+  // guardaba nada (ni en el estado ni en la base de datos).
+  const [cmp, setCmp] = useState("");
+  const [especialidad, setEspecialidad] = useState("");
+  const [centroSaludMedico, setCentroSaludMedico] = useState("");
+  const [telefonoMedico, setTelefonoMedico] = useState("");
+
+  // Campos de ADMIN
+  const [cargo, setCargo] = useState("");
+  const [area, setArea] = useState("");
+  const [telefonoAdmin, setTelefonoAdmin] = useState("");
+
+  const [guardando, setGuardando] = useState(false);
 
   const guardarRegistro = async () => {
 
@@ -20,9 +37,47 @@ function Registro() {
       return;
     }
 
+    // Validación mínima por rol antes de enviar
+    if (rol === "PACIENTE" && !dni) {
+      alert("El DNI es obligatorio");
+      return;
+    }
+
+    if (rol === "MEDICO" && (!cmp || !especialidad || !centroSaludMedico)) {
+      alert("CMP, especialidad y centro de salud son obligatorios");
+      return;
+    }
+
+    if (rol === "ADMIN" && (!cargo || !area)) {
+      alert("Cargo y área son obligatorios");
+      return;
+    }
+
     try {
 
+      setGuardando(true);
+
       const firebase_uid = localStorage.getItem("firebase_uid");
+
+      // Cuerpo base + campos propios de cada rol.
+      // El backend ignora las llaves que no le correspondan a la tabla
+      // que va a insertar, así que es seguro enviarlas todas juntas.
+      const body = {
+        firebase_uid,
+        rol,
+        // Paciente
+        dni,
+        telefono: rol === "MEDICO" ? telefonoMedico : rol === "ADMIN" ? telefonoAdmin : telefono,
+        direccion,
+        fecha_nacimiento: fechaNacimiento,
+        centro_salud: rol === "MEDICO" ? centroSaludMedico : centroSalud,
+        // Médico
+        cmp,
+        especialidad,
+        // Admin
+        cargo,
+        area
+      };
 
       const response = await fetch(
         "http://localhost:3000/api/usuarios/perfil",
@@ -31,15 +86,7 @@ function Registro() {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({
-            firebase_uid,
-            rol,
-            dni,
-            telefono,
-            direccion,
-            fecha_nacimiento: fechaNacimiento,
-            centro_salud: centroSalud
-          })
+          body: JSON.stringify(body)
         }
       );
 
@@ -66,6 +113,10 @@ function Registro() {
       console.error(error);
 
       alert("Error al guardar");
+
+    } finally {
+
+      setGuardando(false);
 
     }
 
@@ -176,16 +227,29 @@ function Registro() {
             <input
               type="text"
               placeholder="CMP"
+              value={cmp}
+              onChange={(e) => setCmp(e.target.value)}
             />
 
             <input
               type="text"
               placeholder="Especialidad"
+              value={especialidad}
+              onChange={(e) => setEspecialidad(e.target.value)}
             />
 
             <input
               type="text"
               placeholder="Centro de Salud"
+              value={centroSaludMedico}
+              onChange={(e) => setCentroSaludMedico(e.target.value)}
+            />
+
+            <input
+              type="text"
+              placeholder="Teléfono"
+              value={telefonoMedico}
+              onChange={(e) => setTelefonoMedico(e.target.value)}
             />
 
           </>
@@ -199,11 +263,22 @@ function Registro() {
             <input
               type="text"
               placeholder="Cargo"
+              value={cargo}
+              onChange={(e) => setCargo(e.target.value)}
             />
 
             <input
               type="text"
               placeholder="Área"
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
+            />
+
+            <input
+              type="text"
+              placeholder="Teléfono"
+              value={telefonoAdmin}
+              onChange={(e) => setTelefonoAdmin(e.target.value)}
             />
 
           </>
@@ -212,8 +287,9 @@ function Registro() {
 
         <button
           onClick={guardarRegistro}
+          disabled={guardando}
         >
-          Guardar y Continuar
+          {guardando ? "Guardando..." : "Guardar y Continuar"}
         </button>
 
         <button

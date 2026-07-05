@@ -63,8 +63,43 @@ const obtenerUsuario = (req, res) => {
 
 };
 
+// NUEVO: lista completa de usuarios (con datos de paciente/medico/admin
+// ya unidos) para alimentar el Dashboard Admin.
+const listarUsuarios = (req, res) => {
+
+  usuarioService.listarUsuarios((error, resultado) => {
+
+    if (error) {
+      console.error(error);
+      return res.status(500).json(error);
+    }
+
+    res.json(resultado);
+
+  });
+
+};
+
+// NUEVO: contadores para las tarjetas de resumen del Dashboard Admin.
+const obtenerEstadisticas = (req, res) => {
+
+  usuarioService.obtenerEstadisticas((error, resultado) => {
+
+    if (error) {
+      console.error(error);
+      return res.status(500).json(error);
+    }
+
+    res.json(resultado);
+
+  });
+
+};
+
 module.exports = {
   registrarUsuario,
   actualizarPerfil,
-  obtenerUsuario
+  obtenerUsuario,
+  listarUsuarios,
+  obtenerEstadisticas
 };
