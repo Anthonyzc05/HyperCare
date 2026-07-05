@@ -1,0 +1,251 @@
+/* ============================================
+   medico.css — Portal HTA · Dashboard del Médico
+   Complementa a paciente.css (comparte variables y
+   clases dash-* del shell). Usar en src/styles/medico.css
+   ============================================ */
+
+/* ── Encabezado con navegación entre pacientes ── */
+.medico-patient-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.medico-patient-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.medico-nav-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.medico-nav-arrow:hover { border-color: var(--accent); color: var(--accent); }
+.medico-nav-arrow svg { width: 16px; height: 16px; }
+
+.medico-section-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.medico-patient-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--slate);
+  margin-top: 2px;
+}
+
+.medico-patient-photo {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--accent);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+/* ── Lista de pacientes ── */
+.medico-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 1.25rem;
+}
+
+.medico-search svg { width: 17px; height: 17px; color: var(--slate); flex-shrink: 0; }
+
+.medico-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  width: 100%;
+}
+
+.medico-patient-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.medico-patient-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.medico-patient-card:hover { border-color: var(--accent); box-shadow: 0 1px 6px rgba(172,71,54,0.12); }
+
+.medico-patient-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.medico-patient-info { flex: 1; min-width: 0; }
+.medico-patient-info-name { font-weight: 600; color: var(--ink); font-size: 14px; }
+.medico-patient-info-meta { font-size: 12px; color: var(--slate); margin-top: 2px; }
+
+.medico-patient-card-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ── Línea de tiempo de eventos ── */
+.medico-timeline { display: flex; flex-direction: column; }
+
+.medico-timeline-item {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 1.1rem;
+  position: relative;
+}
+
+.medico-timeline-item:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 30px;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+
+.medico-timeline-dot {
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--slate);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.medico-timeline-dot svg { width: 14px; height: 14px; }
+.medico-timeline-dot.normal { color: var(--normal); border-color: rgba(58,139,92,0.4); }
+.medico-timeline-dot.elevado { color: var(--elevado); border-color: rgba(192,138,46,0.4); }
+.medico-timeline-dot.critico { color: var(--critico); border-color: rgba(172,71,54,0.4); }
+
+.medico-timeline-body { flex: 1; min-width: 0; padding-top: 3px; }
+
+.medico-timeline-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  text-transform: capitalize;
+}
+
+.medico-timeline-meta { font-size: 11.5px; color: var(--slate); margin-top: 1px; }
+.medico-timeline-detail { font-size: 12.5px; color: var(--ink-soft); margin-top: 3px; }
+
+/* ── Reportes: buscador + lista ── */
+.medico-report-list { display: flex; flex-direction: column; gap: 10px; }
+
+.medico-report-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.medico-report-card:hover { border-color: var(--accent); background: var(--white); }
+
+.medico-report-card-title { font-weight: 600; font-size: 13.5px; color: var(--ink); }
+.medico-report-card-desc { font-size: 12px; color: var(--slate); margin-top: 2px; }
+
+.medico-report-arrow { color: var(--accent); flex-shrink: 0; }
+.medico-report-arrow svg { width: 18px; height: 18px; }
+
+/* ── Formulario de prescripción ── */
+.medico-form-card { max-width: 480px; }
+
+.medico-active-meds-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 1.75rem 0 1rem;
+}
+
+.medico-link-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 12.5px;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+
+.medico-link-btn:hover { text-decoration: underline; }
+
+@media (max-width: 760px) {
+  .medico-patient-header { flex-direction: column; align-items: flex-start; }
+}

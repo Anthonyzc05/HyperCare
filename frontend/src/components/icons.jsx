@@ -146,3 +146,41 @@ export function IconChevronRight(props) {
     </svg>
   );
 }
+
+export function IconChevronLeft(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="m15 6-6 6 6 6" />
+    </svg>
+  );
+}
+
+export function IconUsers(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="9" cy="8" r="3.2" />
+      <path d="M3 20c0-3.3 2.7-5.8 6-5.8s6 2.5 6 5.8" />
+      <path d="M16 8.2a3 3 0 1 1 3.6 2.9" />
+      <path d="M21 20c0-2.6-1.7-4.7-4-5.5" />
+    </svg>
+  );
+}
+
+export function IconSearch(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <circle cx="11" cy="11" r="7" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  );
+}
+
+export function IconClipboard(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="5" y="4.5" width="14" height="17" rx="2" />
+      <path d="M9 4.5V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1.5" />
+      <path d="M8.5 11h7M8.5 15h7" />
+    </svg>
+  );
+}
