@@ -85,40 +85,29 @@ function DashboardAdmin() {
     }
   };
 
-  // Efecto principal: carga usuarios + stats al montar.
-  // Se envuelve la llamada async en una función interna y se usa una
-  // bandera "cancelado" para evitar setState en un componente desmontado
-  // y evitar el warning de React sobre setState síncrono dentro del efecto.
   useEffect(() => {
-    let cancelado = false;
+  let cancelado = false;
 
-    const ejecutar = async () => {
-      if (cancelado) return;
-      await cargarDatos();
-    };
+  const ejecutar = async () => {
+    if (cancelado) return;
+    await cargarDatos();
+  };
 
-    ejecutar();
+  ejecutar();
 
-    return () => {
-      cancelado = true;
-    };
-  }, []);
+  return () => {
+    cancelado = true;
+  };
+}, []);
 
   useEffect(() => {
-    let cancelado = false;
     const firebase_uid = localStorage.getItem("firebase_uid");
     if (!firebase_uid) return;
 
     fetch(`${API_URL}/${firebase_uid}`)
       .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (!cancelado && data) setAdminActual(data);
-      })
+      .then((data) => data && setAdminActual(data))
       .catch(() => {});
-
-    return () => {
-      cancelado = true;
-    };
   }, []);
 
   const pacientes = useMemo(() => usuarios.filter((u) => u.rol === "PACIENTE"), [usuarios]);
