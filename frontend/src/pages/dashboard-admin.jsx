@@ -86,19 +86,8 @@ function DashboardAdmin() {
   };
 
   useEffect(() => {
-  let cancelado = false;
-
-  const ejecutar = async () => {
-    if (cancelado) return;
-    await cargarDatos();
-  };
-
-  ejecutar();
-
-  return () => {
-    cancelado = true;
-  };
-}, []);
+    cargarDatos();
+  }, []);
 
   useEffect(() => {
     const firebase_uid = localStorage.getItem("firebase_uid");
