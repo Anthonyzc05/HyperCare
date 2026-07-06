@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { API_URL } from "../config/api"; 
 import DashboardLayout from "../components/DashboardLayout";
 import {
   IconHome,
@@ -33,8 +33,6 @@ import "../styles/admin.css"; // extensión: badges de rol, buscador, banner de 
    fix esté desplegado y la gente vuelva a completar su perfil.
    ============================================ */
 
-const API_URL = "http://localhost:3000/api/usuarios";
-
 const NAV_ITEMS = [
   { id: "resumen", label: "Resumen", icon: <IconHome /> },
   { id: "pacientes", label: "Pacientes", icon: <IconUsers /> },
@@ -62,8 +60,8 @@ function DashboardAdmin() {
 
     try {
       const [resUsuarios, resStats] = await Promise.all([
-        fetch(API_URL),
-        fetch(`${API_URL}/stats/resumen`),
+        fetch(`${API_URL}/api/usuarios`),
+        fetch(`${API_URL}/api/usuarios/stats/resumen`),
       ]);
 
       if (!resUsuarios.ok || !resStats.ok) {
@@ -78,7 +76,7 @@ function DashboardAdmin() {
     } catch (err) {
       console.error(err);
       setError(
-        "No se pudo conectar con el backend. Verifica que el servidor esté corriendo en http://localhost:3000."
+        "No se pudo conectar con el backend. Verifica que el servidor esté corriendo."
       );
     } finally {
       setCargando(false);
@@ -93,7 +91,7 @@ function DashboardAdmin() {
     const firebase_uid = localStorage.getItem("firebase_uid");
     if (!firebase_uid) return;
 
-    fetch(`${API_URL}/${firebase_uid}`)
+    fetch(`${API_URL}/api/usuarios/${firebase_uid}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => data && setAdminActual(data))
       .catch(() => {});
